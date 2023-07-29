@@ -83,9 +83,9 @@ resource "aws_security_group" "nap-sg-public" {
   }
   egress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
   }
 }
 
@@ -99,9 +99,9 @@ resource "aws_security_group" "nap-sg-private" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
