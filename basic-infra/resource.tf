@@ -123,15 +123,33 @@ resource "aws_instance" "pub-vm" {
   depends_on = [aws_security_group.nap-sg-public]
 }
 
-resource "aws_instance" "pri-vm" {
-  ami = "ami-0f9ce67dcf718d332"
-  #associate_public_ip_address = "true"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.NAP-privatesub.id
-  key_name               = "NAP-key"
-  vpc_security_group_ids = [aws_security_group.nap-sg-private.id]
+resource "aws_volume_attachment" "attach" {
+  device_name  = "/dev/sdh"
+  volume_id    = aws_ebs_volume.ebsvol.id
+  instance_id  = aws_instance.pub-vm.id
+  force_detach = "true"
+
 }
 
+resource "aws_instance" "pri-vm" {
+  ami                         = "ami-0f9ce67dcf718d332"
+  associate_public_ip_address = "true"
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.NAP-privatesub.id
+  key_name                    = "NAP-key"
+  vpc_security_group_ids      = [aws_security_group.nap-sg-private.id]
+}
+
+########################   EBS vol   #####################################
+
+resource "aws_ebs_volume" "ebsvol" {
+  availability_zone = aws_instance.pub-vm.availability_zone
+  size              = 2
+  tags = {
+    "Name" = "ebsvol"
+  }
+
+}
 
 
 resource "aws_iam_user" "user" {
