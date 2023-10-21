@@ -1,9 +1,13 @@
 
 locals {
   instance_size = "t2.micro"
-  env = "Dev"
+  #ENV = "test"
   application = "Nginx"
   zone = slice(data.aws_availability_zones.zones.names,0,length(var.pub-sub-id))
+  vm-tags = {
+    Name = "${var.ENV}-vm"
+    App  = local.application
+  }
 }
 
 data "aws_availability_zones" "zones" {
@@ -17,9 +21,9 @@ resource "aws_instance" "ec2-vm" {
   instance_type = local.instance_size
   key_name = var.key-name
   vpc_security_group_ids = var.sg-ids
-  tags = {
-    Name = "${local.env}-iis-[count.index]-${local.zone[count.index]}"
-    App  = local.application
-  }
+  tags = merge({
+    ENV = "Dev"
+  },local.vm-tags)
+  
 
 }

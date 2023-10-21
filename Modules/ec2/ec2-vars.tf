@@ -19,3 +19,8 @@ variable "sg-ids" {
   description = "Security group ids"
   type = list(string)
 }
+
+variable "ENV" {
+  description = "Type of Environment"
+  type = string
+}
