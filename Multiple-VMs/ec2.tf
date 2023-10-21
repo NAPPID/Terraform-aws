@@ -13,10 +13,10 @@ resource "aws_instance" "pub-vm" {
   amazon-linux-extras install nginx1.12 -y
   service nginx start
   chkconfig nginx on
-  echo '<h1> webserver-"${count.index+1}"</h1>' >> /usr/share/nginx/html/index.html
+  echo '<h1> webserver-"${count.index + 1}"</h1>' >> /usr/share/nginx/html/index.html
   EOF
 
   tags = {
-    "Name" = "pub-vm-${count.index+1}"
+    "Name" = "pub-vm-${count.index + 1}"
   }
 }

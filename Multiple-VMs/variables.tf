@@ -7,13 +7,13 @@ variable "nap-vpc" {
 variable "pub-sub" {
   description = "Public subnet for NAP VPC"
   type        = list(string)
-  default     = ["192.168.10.0/24", "192.168.20.0/24", "192.168.30.0/24"]
+  default     = ["192.168.10.0/24", "192.168.20.0/24"]
 }
 
 variable "vm-region" {
   description = "Availability Zones"
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
 variable "vm-ami" {
