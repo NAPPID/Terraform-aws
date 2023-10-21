@@ -1,8 +1,9 @@
 
 locals {
   all-tags = {
-    name        = "${var.env}-${data.aws_region.region.name}-vpc"
+    name        = "${var.ENV}-${data.aws_region.region.name}-vpc"
     Application = "Nginx"
+    #ENV = "dev"
   }
 
   #for_each = toset(module.deploy-ec2.pub-ip)
@@ -36,5 +37,16 @@ module "deploy-ec2" {
   count      = length(module.deploy-vpc.subnet-ids)
   pub-sub-id = [module.deploy-vpc.subnet-ids[count.index]]
   sg-ids     = [module.deploy-sg.sg-id]
+  ENV        = var.ENV
 
+}
+
+output "ec2-public-ips" {
+  value = module.deploy-ec2[*].pub-ip
+}
+
+output "pub-ip-list" {
+  value = [
+          for ip in module.deploy-ec2[*].pub-ip : ip
+  ]
 }

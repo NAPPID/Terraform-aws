@@ -14,7 +14,7 @@ variable "pub-subs" {
   type        = list(string)
 }
 
-variable "env" {
+variable "ENV" {
   description = "Environment"
   type        = string
 }
